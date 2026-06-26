@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Didi!</title>
+    <style>
+        /* --- EXISTING LAYOUT & BASE STYLES WITH NEW BLACK-PINK THEME --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a050d 0%, #1c0015 40%, #000000 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            z-index: 2;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 20, 147, 0.9), 0 0 20px rgba(255, 105, 180, 0.6);
+            margin-top: 20px;
+            animation: pulse Title 2s infinite ease-in-out;
+        }
+        
+        /* --- USER REQUESTED CAKE --- */
+        .cake {
+            font-size: 5rem;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+            user-select: none;
+            display: inline-block;
+            filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6));
+        }
+        .cake:hover {
+            transform: scale(1.15);
+        }
+        .cake:active {
+            transform: scale(0.95);
+        }
+
+        /* --- AUDIO BUTTON (PINK THEME) --- */
+        .audio-control {
+            margin: 10px 0;
+        }
+        .music-btn {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .music-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.7);
+        }
+
+        /* --- PREMIUM COVER FLOW GALLERY SECTION --- */
+        .gallery-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 520px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 105, 180, 0.15);
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            perspective: 1200px;
+        }
+
+        .particle-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .gallery-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,20,147,0.6) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatParticle 8s infinite linear;
+        }
+
+        .coverflow-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+            z-index: 2;
+        }
+
+        .coverflow-item {
+            position: absolute;
+            width: 280px;
+            height: 380px;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.35, 1), filter 0.8s cubic-bezier(0.25, 1, 0.35, 1), opacity 0.8s cubic-bezier(0.25, 1, 0.35, 1);
+            transform-style: preserve-3d;
+            border-radius: 16px;
+            cursor: pointer;
+            -webkit-box-reflect: below 12px linear-gradient(transparent, transparent 50%, rgba(255, 255, 255, 0.12));
+        }
+
+        .coverflow-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            transition: border-color 0.8s, box-shadow 0.8s;
+        }
+
+        /* Coverflow States */
+        .coverflow-item.cf-center {
+            opacity: 1;
+            filter: blur(0px) brightness(1.1);
+            z-index: 100;
+        }
+        .coverflow-item.cf-center img {
+            border-color: rgba(255, 20, 147, 0.9);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 30px rgba(255, 20, 147, 0.7);
+            animation: luxuryScale 4s infinite ease-in-out alternate;
+        }
+
+        .coverflow-item.cf-left, .coverflow-item.cf-farleft {
+            filter: blur(5px) brightness(0.5);
+            opacity: 0.65;
+        }
+
+        .coverflow-item.cf-right, .coverflow-item.cf-farright {
+            filter: blur(5px) brightness(0.5);
+            opacity: 0.65;
+        }
+        
+        .coverflow-item.cf-hidden {
+            opacity: 0;
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        /* --- FINAL MESSAGE SECTION --- */
+        .message-section {
+            background: rgba(20, 0, 15, 0.4);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 105, 180, 0.15);
+            max-width: 700px;
+            margin: 10px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .message-section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #ffe4e1;
+        }
+
+        /* --- BEST SISTER EVER AWARD --- */
+        .award-box {
+            border: 3px dashed #ff1493;
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(255, 20, 147, 0.04);
+            max-width: 500px;
+            position: relative;
+            margin: 10px 0;
+            box-shadow: inset 0 0 15px rgba(255, 20, 147, 0.05);
+        }
+        .award-box h2 {
+            color: #ff69b4;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 20, 147, 0.4);
+        }
+        .award-box p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #ffffff;
+        }
+
+        /* --- ACTION BUTTON (PINK GRADIENT) --- */
+        .action-btn {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 20, 147, 0.4);
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+        }
+        .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.7);
+        }
+
+        /* --- CONFETTI CANVAS --- */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes luxuryScale {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.04); }
+        }
+        @keyframes floatParticle {
+            0% { transform: translateY(100%) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-20%) translateX(50px); opacity: 0; }
+        }
+
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .gallery-wrapper { height: 420px; }
+            .coverflow-item { width: 200px; height: 280px; }
+            .message-section p { font-size: 1rem; }
+            .award-box { width: 90%; }
+            .cake { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <h1>Happy Birthday Didi!</h1>
+
+        <div class="cake" onclick="celebrate()">
+            🎂
+        </div>
+
+        <div class="audio-control">
+            <button class="music-btn" id="play-btn">🎵 Special Song</button>
+            <audio id="birthday-audio" src="birthday.mp3" preload="auto"></audio>
+        </div>
+
+        <div class="gallery-wrapper">
+            <div class="particle-container" id="particle-container"></div>
+            <div class="coverflow-container" id="coverflow-container">
+                <div class="coverflow-item"><img src="didi1.jpg" alt="Didi 1"></div>
+                <div class="coverflow-item"><img src="didi2.jpg" alt="Didi 2"></div>
+                <div class="coverflow-item"><img src="didi3.jpg" alt="Didi 3"></div>
+                <div class="coverflow-item"><img src="thumb2.jpg" alt="Didi 4"></div>
+                <div class="coverflow-item"><img src="time1.jpg" alt="Didi 5"></div>
+                <div class="coverflow-item"><img src="time5.jpg" alt="Didi 6"></div>
+            </div>
+        </div>
+
+        <div class="message-section">
+            <p>Thank you for always being my guide, my protector, and my best friend. On your special day, I wish you endless happiness, endless laughter, and all the love you continuously shower upon everyone else around you. Have a gorgeous birthday!</p>
+        </div>
+
+        <div class="award-box">
+            <h2>🏆 Best Sister Ever Award</h2>
+            <p>Officially certified and awarded to the most incredible, caring, and unconditionally loving Didi in the entire universe!</p>
+        </div>
+
+        <button class="action-btn" id="action-btn">One Last Thing...</button>
+    </div>
+
+    <script>
+        /* --- AUDIO LOGIC --- */
+        const playBtn = document.getElementById('play-btn');
+        const audio = document.getElementById('birthday-audio');
+
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().catch(err => console.log("Audio play blocked or error:", err));
+                playBtn.innerHTML = "⏸️ Pause Song";
+            } else {
+                audio.pause();
+                playBtn.innerHTML = "🎵 Special Song";
+            }
+        });
+
+        /* --- PREMIUM COVER FLOW GALLERY ENGINE --- */
+        const container = document.getElementById('coverflow-container');
+        const items = Array.from(document.querySelectorAll('.coverflow-item'));
+        let currentIndex = 0;
+        const totalItems = items.length;
+
+        function updateCoverflow() {
+            const isMobile = window.innerWidth <= 768;
+            const xSpacing = isMobile ? 55 : 120; 
+            const zTranslate = isMobile ? -100 : -180;
+            const yRotate = isMobile ? 40 : 55;
+
+            items.forEach((item, i) => {
+                let offset = i - currentIndex;
+                
+                if (offset < -totalItems / 2) offset += totalItems;
+                if (offset > totalItems / 2) offset -= totalItems;
+
+                item.className = 'coverflow-item';
+
+                if (offset === 0) {
+                    item.classList.add('cf-center');
+                    item.style.transform = `translateX(0px) translateZ(120px) rotateY(0deg)`;
+                    item.style.zIndex = 10;
+                } else if (offset === 1) {
+                    item.classList.add('cf-right');
+                    item.style.transform = `translateX(${xSpacing}px) translateZ(${zTranslate}px) rotateY(-${yRotate}deg)`;
+                    item.style.zIndex = 5;
+                } else if (offset === -1) {
+                    item.classList.add('cf-left');
+                    item.style.transform = `translateX(-${xSpacing}px) translateZ(${zTranslate}px) rotateY(${yRotate}deg)`;
+                    item.style.zIndex = 5;
+                } else if (offset > 1) {
+                    item.classList.add('cf-farright');
+                    item.style.transform = `translateX(${xSpacing * 1.6}px) translateZ(${zTranslate * 1.5}px) rotateY(-${yRotate}deg)`;
+                    item.style.zIndex = 1;
+                    if (offset > 2) item.classList.add('cf-hidden');
+                } else if (offset < -1) {
+                    item.classList.add('cf-farleft');
+                    item.style.transform = `translateX(-${xSpacing * 1.6}px) translateZ(${zTranslate * 1.5}px) rotateY(${yRotate}deg)`;
+                    item.style.zIndex = 1;
+                    if (offset < -2) item.classList.add('cf-hidden');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalItems;
+            updateCoverflow();
+        }
+
+        items.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentIndex = index;
+                updateCoverflow();
+            });
+        });
+
+        let autoRotateInterval = setInterval(nextSlide, 3500);
+
+        container.addEventListener('click', () => {
+            clearInterval(autoRotateInterval);
+            autoRotateInterval = setInterval(nextSlide, 3500);
+        });
+
+        window.addEventListener('resize', updateCoverflow);
+        updateCoverflow();
+
+        /* --- FLOATING LUXURY PARTICLES LAYER --- */
+        const pContainer = document.getElementById('particle-container');
+        const particleCount = 15;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('gallery-particle');
+            const size = Math.random() * 12 + 6;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.bottom = `-${Math.random() * 20}%`;
+            particle.style.animationDelay = `${Math.random() * 8}s`;
+            particle.style.animationDuration = `${6 + Math.random() * 6}s`;
+            pContainer.appendChild(particle);
+        }
+
+        /* --- CONFETTI SYSTEM LOGIC (BLACK-PINK HIGHLIGHTS) --- */
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let pieces = [];
+        const numberOfPieces = 120;
+        const colors = ['#ff1493', '#ff69b4', '#ffb6c1', '#ffffff', '#333333'];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class ConfettiPiece {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.size = Math.random() * 8 + 5;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.speed = Math.random() * 3 + 2;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+            }
+            update() {
+                this.y += this.speed;
+                this.rotation += this.rotationSpeed;
+                if (this.y > canvas.height) {
+                    this.y = -20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < numberOfPieces; i++) {
+            pieces.push(new ConfettiPiece());
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pieces.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateConfetti);
+        }
+        animateConfetti();
+
+        /* --- CELEBRATE FUNCTION (ON CAKE CLICK) --- */
+        function celebrate() {
+            pieces.forEach(p => p.y = Math.random() * canvas.height - canvas.height);
+        }
+
+        /* --- ACTION BUTTON LOGIC (NEXT PAGE REDIRECTION) --- */
+        const actionBtn = document.getElementById('action-btn');
+        actionBtn.addEventListener('click', () => {
+            pieces.forEach(p => p.y = Math.random() * canvas.height - canvas.height);
+            
+            setTimeout(() => {
+                window.location.href = "onelastthing.html";
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>
+
+```

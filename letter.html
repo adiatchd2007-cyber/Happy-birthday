@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Letter ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #111;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            color: white;
+            flex-direction: column;
+            padding: 40px 20px;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff4d88;
+            animation: float 8s linear infinite;
+            opacity: .5;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh);
+            }
+
+            100% {
+                transform: translateY(-100px);
+            }
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: #ff4d88;
+            position: relative;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: .5s;
+        }
+
+        .envelope:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #ff7cab;
+            transform-origin: top;
+            transition: .5s;
+        }
+
+        .open .envelope:before {
+            transform: rotateX(180deg);
+        }
+
+        .letter {
+            display: none;
+            max-width: 700px;
+            width: 100%;
+            background: #181818;
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+            line-height: 1.8;
+            font-size: 18px;
+            box-shadow: 0 0 20px rgba(255, 77, 136, .4);
+
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            border: none;
+            background: white;
+            color: #ff4d88;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .next {
+            display: none;
+            margin-top: 25px;
+            padding: 15px 30px;
+            background: #ff4d88;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="box">
+
+        <div class="envelope"></div>
+
+        <button class="btn" onclick="openLetter()">
+            💌 Open Letter
+        </button>
+
+    </div>
+
+    <div class="letter" id="letter">
+
+        <h2>Dear Didi ❤️</h2>
+
+        <br>
+
+        <p id="text"></p>
+
+        <a href="surprise.html" class="next" id="next">
+            🎁 Final Surprise
+        </a>
+
+    </div>
+
+    <script>
+
+        let message = `
+
+Dear Didi ❤️,
+
+Sach kahun to mujhe kabhi nahi laga tha ki koi insaan itna important ban sakta hai jitni aap mere liye ho.
+
+Hum shayad bahut jaldi nahi mile, aur na hi mere paas bachpan se lekar aaj tak ki hazaron memories hain jo log aksar apni behno ke saath share karte hain. Lekin jitna bhi waqt mila, usne mujhe ye zaroor samjha diya ki kuch rishte saalon se nahi, ehsaason se bante hain.
+
+Is website mein jo bhi hai — photos, videos, songs, messages aur memories — ye sab perfect nahi honge. Shayad kahin koi kami bhi ho. Lekin ek cheez bilkul sach hai: har page maine dil se banaya hai.
+
+Mera maksad sirf itna tha ki aapke birthday par aap muskurao aur aapko ehsaas ho ki aap kisi ke liye bahut special ho.
+
+Thank you for being kind.
+Thank you for being supportive.
+Aur sabse zyada, thank you for being you.
+
+Aap hamesha khush raho, haste raho aur zindagi aapko har woh khushi de jiski aap haqdar ho.
+
+Happy Birthday Didi ❤️🎂
+
+– Your Little Brother ❤️
+
+
+`;
+
+        let i = 0;
+
+        function openLetter() {
+
+            document.getElementById("box").style.display="none";
+
+            document.getElementById("letter").style.display = "block";
+            document.getElementById("letter").scrollIntoView({
+                behavior: "smooth"
+            });
+
+            let interval = setInterval(() => {
+
+                document.getElementById("text").innerHTML += message.charAt(i);
+
+                i++;
+
+                if (i >= message.length) {
+
+                    clearInterval(interval);
+
+                    document.getElementById("next").style.display = "inline-block";
+
+                }
+
+            }, 35);
+
+        }
+
+        for (let i = 0; i < 30; i++) {
+
+            let heart = document.createElement("div");
+
+            heart.innerHTML = "❤️";
+
+            heart.classList.add("heart");
+
+            heart.style.left = Math.random() * 100 + "vw";
+
+            heart.style.animationDuration =
+                (5 + Math.random() * 8) + "s";
+
+            document.body.appendChild(heart);
+
+        }
+
+    </script>
+
+</body>
+
+</html>

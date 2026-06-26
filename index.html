@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Didi Search ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0f0f0f;
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .logo {
+            font-size: 70px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .logo span:nth-child(1) {
+            color: #4285F4;
+        }
+
+        .logo span:nth-child(2) {
+            color: #EA4335;
+        }
+
+        .logo span:nth-child(3) {
+            color: #FBBC05;
+        }
+
+        .logo span:nth-child(4) {
+            color: #4285F4;
+        }
+
+        .logo span:nth-child(5) {
+            color: #34A853;
+        }
+
+        .logo span:nth-child(6) {
+            color: #EA4335;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        .search-box {
+            width: 90%;
+            max-width: 650px;
+            display: flex;
+            background: #202124;
+            border-radius: 50px;
+            padding: 10px;
+            border: 1px solid #333;
+        }
+
+        .search-box input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        .search-box button {
+            background: #303134;
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .search-box button:hover {
+            background: #3b3c3d;
+        }
+
+        .suggestions {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tag {
+            background: #202124;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid #333;
+            transition: .3s;
+        }
+
+        .tag:hover {
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 22px;
+            min-height: 80px;
+            padding: 20px;
+        }
+
+        .enter-btn {
+            display: none;
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: #ff4d6d;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: .3s;
+        }
+
+        .enter-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float 10s linear infinite;
+            opacity: .3;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh);
+            }
+
+            100% {
+                transform: translateY(-100px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="logo">
+        <span>D</span>
+        <span>i</span>
+        <span>d</span>
+        <span>i</span>
+        <span>S</span>
+        <span>earch</span>
+    </div>
+
+    <div class="subtitle">
+        Search anything about the world's best sister ❤️
+    </div>
+
+    <div class="search-box">
+        <input id="searchInput" placeholder="Search about Didi...">
+        <button onclick="searchDidi()">Search</button>
+    </div>
+
+    <div class="suggestions">
+
+        <div class="tag" onclick="fillText('Aapse sundar')">
+            Aapse sundar?
+        </div>
+
+        <div class="tag" onclick="fillText('Aapse khoobsurat')">
+            Aapse khoobsurat?
+        </div>
+
+        <div class="tag" onclick="fillText('Aapse achi bhan')">
+            Aapse achi bhan?
+        </div>
+
+        <div class="tag" onclick="fillText('Best teacher of life')">
+            Best teacher?
+        </div>
+
+        <div class="tag" onclick="fillText('Most caring person')">
+            Most caring?
+        </div>
+
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <a href="spotify.html" class="enter-btn" id="enterBtn">
+        Enter DidiVerse ❤️
+    </a>
+
+    <script>
+
+        function fillText(text) {
+            document.getElementById("searchInput").value = text;
+        }
+
+        function searchDidi() {
+
+            let q = document
+                .getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+            let result = document.getElementById("result");
+
+            if (q.includes("sundar")) {
+                result.innerHTML =
+                    "🔍 No results found.<br><br> Nobody is prettier than Didi ❤️";
+            }
+
+            else if (q.includes("khoobsurat")) {
+                result.innerHTML =
+                    "✨ Search Complete<br><br> Didi remains unmatched ❤️";
+            }
+
+            else if (q.includes("achi bhan")) {
+                result.innerHTML =
+                    "❌ Error 404<br><br> Better sister does not exist.";
+            }
+
+            else if (q.includes("teacher")) {
+                result.innerHTML =
+                    "🏆 Result Found<br><br> My Didi ❤️";
+            }
+
+            else if (q.includes("caring")) {
+                result.innerHTML =
+                    "💖 Result Found<br><br> The most caring person ever.";
+            }
+
+            else {
+                result.innerHTML =
+                    "❤️ Every search leads back to Didi ❤️";
+            }
+
+            document.getElementById("enterBtn").style.display = "inline-block";
+        }
+
+        for (let i = 0; i < 25; i++) {
+
+            let heart = document.createElement("div");
+
+            heart.innerHTML = "❤️";
+
+            heart.classList.add("heart");
+
+            heart.style.left = Math.random() * 100 + "vw";
+
+            heart.style.animationDuration =
+                (5 + Math.random() * 10) + "s";
+
+            document.body.appendChild(heart);
+
+        }
+
+    </script>
+
+</body>
+
+</html>

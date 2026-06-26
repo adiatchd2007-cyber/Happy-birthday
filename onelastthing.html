@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Last Thing ❤️</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
+color:white;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+overflow-x:hidden;
+overflow-y:auto;
+}
+
+.container{
+max-width:850px;
+width:100%;
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(12px);
+padding:40px;
+border-radius:30px;
+box-shadow:0 0 40px rgba(255,77,136,.15);
+text-align:center;
+animation:fadeIn 1.5s ease;
+margin:40px 0;
+position:relative;
+z-index:2;
+}
+
+h1{
+font-size:clamp(35px,6vw,50px);
+color:#ff7aa8;
+margin-bottom:15px;
+}
+
+.subtitle{
+color:#ffb3c6;
+font-size:18px;
+margin-bottom:20px;
+}
+
+.line{
+width:120px;
+height:4px;
+background:#ff4d88;
+margin:0 auto 30px;
+border-radius:10px;
+}
+
+#text{
+font-size:20px;
+line-height:1.9;
+color:#f0f0f0;
+white-space:pre-wrap;
+text-align:left;
+min-height:300px;
+}
+
+.btn{
+display:none;
+margin-top:35px;
+padding:15px 35px;
+background:#ff4d88;
+color:white;
+text-decoration:none;
+border-radius:50px;
+font-weight:bold;
+font-size:18px;
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+}
+
+.heart{
+position:fixed;
+font-size:22px;
+opacity:.25;
+pointer-events:none;
+animation:float linear infinite;
+z-index:1;
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(110vh);
+}
+
+100%{
+transform:translateY(-120px);
+}
+
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(30px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>❤️ One Last Thing...</h1>
+
+<p class="subtitle">
+Some people enter our lives late,
+yet become unforgettable ❤️
+</p>
+
+<div class="line"></div>
+
+<p id="text"></p>
+
+<a href="index.html" class="btn" id="journeyBtn">
+❤️ Relive The Journey
+</a>
+
+</div>
+
+<script>
+
+const message = `
+
+Before you leave...
+
+There is one last thing I want to say.
+
+If there was anything in this website
+that felt awkward,
+uncomfortable,
+or simply not right...
+
+Please forgive me.
+
+My intention was never to hurt you,
+make you uncomfortable,
+or bring back any memory you didn't like.
+
+I only wanted to create something
+that could make you smile.
+
+Every photo,
+every song,
+every video,
+every page,
+and every word...
+
+was added with respect,
+gratitude,
+and lots of effort.
+
+Maybe this website isn't perfect.
+
+Maybe I made mistakes.
+
+But one thing is true...
+
+Everything here was made
+with a genuine wish
+to make your birthday
+a little more special.
+
+Thank you for your time.
+
+Thank you for your kindness.
+
+And thank you
+for being such a wonderful person.
+
+Happy Birthday Didi ❤️🎂
+
+`;
+
+let i = 0;
+
+function typeWriter(){
+
+if(i < message.length){
+
+document.getElementById("text").innerHTML += message.charAt(i);
+
+i++;
+
+setTimeout(typeWriter,25);
+
+}
+else{
+
+document.getElementById("journeyBtn").style.display="inline-block";
+
+}
+
+}
+
+typeWriter();
+
+for(let i=0;i<40;i++){
+
+let heart=document.createElement("div");
+
+heart.innerHTML="❤️";
+
+heart.classList.add("heart");
+
+heart.style.left=Math.random()*100+"vw";
+
+heart.style.animationDuration=
+(6+Math.random()*8)+"s";
+
+document.body.appendChild(heart);
+
+}
+
+</script>
+
+</body>
+</html>
